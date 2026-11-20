@@ -28,7 +28,7 @@ jobs:
 
       - name: Extract Android source
         run: |
-          unzip -q SNAP_Camera_Bridge_source_v2.zip -d extracted
+          unzip -q SNAP_Camera_Bridge_source_v3.zip -d extracted
 
       - name: Build APK
         run: |
