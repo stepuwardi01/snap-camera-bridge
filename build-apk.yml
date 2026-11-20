@@ -1,0 +1,42 @@
+
+name: Build SNAP Camera Bridge APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9
+
+      - name: Extract source project
+        run: |
+          unzip -q SNAP_Camera_Bridge_source_v2.zip -d extracted
+
+      - name: Build Android APK
+        run: |
+          cd extracted/SNAP_Camera_Bridge
+          gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SNAP-Camera-Bridge-APK
+          path: extracted/SNAP_Camera_Bridge/app/build/outputs/apk/debug/app-debug.apk
